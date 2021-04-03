@@ -1,0 +1,54 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Budget App</title>
+    <meta name="description" content="Budget App" />
+    <meta name="Sara" content="Budget App" />
+
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+
+  <body>
+    <div id="generalInfo">
+      <div id="budget">
+        <h2>Budget</h2>
+        <p>£<span id="showBudgetValue"></span></p>
+      </div>
+      <div id="expenses">
+        <h2>Expenses</h2>
+        <div>
+          <button class="editExpense">Edit</button>
+          <button class="deleteExpense">Delete</button>
+        </div>
+      </div>
+      <div id="balance">
+        <h2>balance</h2>
+        <p>£<span id="showBalanceValue"></span></p>
+      </div>
+    </div>
+    <div>
+      <div id="inputBudget">
+        <h3>Budget Input</h3>
+        <label for="inputBudgetBox">Please enter your budget:</label>
+        <input type="number" id="inputBudgetBox" />
+        <button type="button" onclick="addToBudget()">Calculate</button>
+      </div>
+      <div id="inputExpenses">
+        <h3>Expense Input</h3>
+        <label for="expenseDescription">Expense Description</label>
+        <input type="text" id="expenseDescription" />
+        <label for="inputExpenseBox">Expense value</label>
+        <input type="number" id="inputExpenseBox" />
+        <button
+          type="button"
+          id="calculateExpenseButton"
+          onclick="createExpense()"
+        >
+          Calculate
+        </button>
+      </div>
+    </div>
+    <script src="js/logic.js"></script>
+  </body>
+</html>
