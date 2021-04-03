@@ -67,7 +67,7 @@ function deleteExpense(event) {
   expenses.splice(expenseId, 1);
   CreateExpenseHTMLInject();
 }
-
+//create edit button when an expense is created
 function createEditButton(createNewDiv) {
   let createEditButton = document.createElement("button");
   createNewDiv.appendChild(createEditButton);
@@ -77,6 +77,7 @@ function createEditButton(createNewDiv) {
   createEditButton.addEventListener("click", editExpense);
 }
 
+//Create save button when edit expense is clicked
 function createSaveButton(expenseId) {
   if (document.getElementById("saveButton") == null) {
     let parentDivForSave = document.getElementById("inputExpenses");
@@ -89,7 +90,7 @@ function createSaveButton(expenseId) {
     saveButton.setAttribute("id", "saveButton");
   }
 }
-
+//Updates the array expenses when people edit an expense
 function editExpense(event) {
   let expenseId = event.target.parentElement.dataset.expenseNumber;
   document.getElementById("inputExpenseBox").value =
@@ -99,7 +100,8 @@ function editExpense(event) {
   hideCalculateExpenseButton();
   createSaveButton(expenseId);
 }
-//why can't I pass the expenseID (AKA the number)?!
+
+//Function that updates the expenses array when any of the values is updated
 function saveExpenseEdit(event) {
   let expenseId = event.target.getAttribute("data-expense-id");
   console.log(expenseId);
@@ -116,6 +118,7 @@ function saveExpenseEdit(event) {
   deleteSaveButton();
 }
 
+//hides the calculate button when an expense is being edited.
 function hideCalculateExpenseButton() {
   let calculateExpenseButton = document.getElementById(
     "calculateExpenseButton"
@@ -123,6 +126,7 @@ function hideCalculateExpenseButton() {
   calculateExpenseButton.style.display = "none";
 }
 
+//deletes save button after expense has been edited, displays the submit button again for input another expense.
 function deleteSaveButton() {
   let saveButton = document.getElementById("saveButton");
   saveButton.parentNode.removeChild(saveButton);
