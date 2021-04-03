@@ -77,34 +77,43 @@ function createEditButton(createNewDiv) {
   createEditButton.addEventListener("click", editExpense);
 }
 
-function createSaveButton() {
-  let parentDivForSave = document.getElementById("inputExpenses");
-  let saveButton = document.createElement("button");
-  parentDivForSave.appendChild(saveButton);
-  let saveButtonText = document.createTextNode("Save");
-  saveButton.appendChild(saveButtonText);
-  saveButton.addEventListener("click", saveExpenseEdit);
+function createSaveButton(expenseId) {
+  if (document.getElementById("saveButton") == null) {
+    let parentDivForSave = document.getElementById("inputExpenses");
+    let saveButton = document.createElement("button");
+    parentDivForSave.appendChild(saveButton);
+    let saveButtonText = document.createTextNode("Save");
+    saveButton.appendChild(saveButtonText);
+    saveButton.addEventListener("click", saveExpenseEdit);
+    saveButton.dataset.expenseId = expenseId;
+    saveButton.setAttribute("id", "saveButton");
+  }
 }
+
 function editExpense(event) {
   let expenseId = event.target.parentElement.dataset.expenseNumber;
   document.getElementById("inputExpenseBox").value =
     expenses[expenseId].expenseValue;
   document.getElementById("expenseDescription").value =
     expenses[expenseId].expenseDescription;
-
   hideCalculateExpenseButton();
-  createSaveButton();
+  createSaveButton(expenseId);
 }
 //why can't I pass the expenseID (AKA the number)?!
-function saveExpenseEdit(expenseId) {
-  // expenses[expenseId].expenseDescription = document.getElementById(
-  //   "expenseDescription"
-  // ).value;
-  // expenses[expenseId].expenseValue = document.getElementById(
-  //   "inputExpenseBox"
-  // ).value;
-
+function saveExpenseEdit(event) {
+  let expenseId = event.target.getAttribute("data-expense-id");
   console.log(expenseId);
+  expenses[expenseId].expenseDescription = document.getElementById(
+    "expenseDescription"
+  ).value;
+  expenses[expenseId].expenseValue = document.getElementById(
+    "inputExpenseBox"
+  ).value;
+  document.getElementById("inputExpenseBox").value = "";
+  document.getElementById("expenseDescription").value = "";
+
+  CreateExpenseHTMLInject();
+  deleteSaveButton();
 }
 
 function hideCalculateExpenseButton() {
@@ -112,6 +121,12 @@ function hideCalculateExpenseButton() {
     "calculateExpenseButton"
   );
   calculateExpenseButton.style.display = "none";
+}
+
+function deleteSaveButton() {
+  let saveButton = document.getElementById("saveButton");
+  saveButton.parentNode.removeChild(saveButton);
+  calculateExpenseButton.style.display = "inline-block";
 }
 // function deleteExpense(event) {
 //   let deleteButton = document.querySelectorAll(".deleteButton");
