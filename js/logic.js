@@ -9,6 +9,7 @@ function addToBudget() {
     "showBudgetValue"
   ).innerHTML = budgetValue);
   document.getElementById("inputBudgetBox").value = "";
+  return displayBudget;
 }
 
 //Create Expense Function
@@ -27,30 +28,6 @@ function createExpense() {
   CreateExpenseHTMLInject();
 }
 
-//Create Expense HTML Inject
-function CreateExpenseHTMLInject() {
-  document
-    .querySelectorAll(".ExpenseDiv")
-    .forEach((Element) => Element.remove()); //remove o que já está impresso
-  for (let i = 0; i < expenses.length; i++) {
-    if (expenses[i] != expenses[i].expenseId) {
-      let createNewDiv = document.createElement("div");
-      createNewDiv.className = "ExpenseDiv";
-      let createNewLine = document.createElement("p");
-      createNewLine.className = "individualExpense";
-      expensesSection.appendChild(createNewDiv);
-      createNewDiv.appendChild(createNewLine);
-      let newExpenseLine = document.createTextNode(
-        "£" + expenses[i].expenseValue + " - " + expenses[i].expenseDescription
-      );
-      createNewLine.appendChild(newExpenseLine);
-      createNewDiv.dataset.expenseNumber = i;
-      createEditButton(createNewDiv);
-      createDeleteButton(createNewDiv);
-    }
-  }
-}
-
 //Create Delete Button for Expense and add onClick event
 function createDeleteButton(createNewDiv) {
   let createDeleteButton = document.createElement("button");
@@ -65,6 +42,7 @@ function createDeleteButton(createNewDiv) {
 function deleteExpense(event) {
   let expenseId = event.target.parentElement.dataset.expenseNumber;
   expenses.splice(expenseId, 1);
+  sumExpenses();
   CreateExpenseHTMLInject();
 }
 //create edit button when an expense is created
@@ -132,22 +110,59 @@ function deleteSaveButton() {
   saveButton.parentNode.removeChild(saveButton);
   calculateExpenseButton.style.display = "inline-block";
 }
-// function deleteExpense(event) {
-//   let deleteButton = document.querySelectorAll(".deleteButton");
 
-//   for (let i = 0; i <= deleteButton.length; i++) {
-//     deleteButton[i].addEventListener("click", checkIndex(event));
-//   }
-// }
+// adds all the expensesValue in the expenses Array
+function sumExpenses() {
+  let total = 0;
+  for (let i = 0; i < expenses.length; i++) {
+    total = total + expenses[i].expenseValue;
+    console.log(total);
+  }
+  return total;
+}
 
-// deleteButton.forEach(function (removeExpenseCheckIndex) {
-//   removeExpenseCheckIndex.addEventListener("click", removeExpenseCheckIndex);
-// });
+function totalBalanceAfterExpenses(displayBudget, total) {
+  let budgetValue = displayBudget;
+  let budgetMinusExpenses;
+  if (budgetValue != "") {
+    budgetMinusExpenses = displayBudget - total;
+    return budgetMinusExpenses;
+  } else {
+    console.log("oh");
+  }
+  return budgetMinusExpenses;
+} // check if this function is correct
 
-// function removeExpenseCheckIndex(event) {
-//   let arrayIndex = Array.from(deleteButton).indexOf(event.target);
-//   console.log(arrayIndex);
-// }
+//Create Expense HTML Inject
+function CreateExpenseHTMLInject(total, budgetMinusExpenses) {
+  document
+    .querySelectorAll(".ExpenseDiv")
+    .forEach((Element) => Element.remove()); //remove o que já está impresso
+
+  for (let i = 0; i < expenses.length; i++) {
+    if (expenses[i] != expenses[i].expenseId) {
+      let createNewDiv = document.createElement("div");
+      createNewDiv.className = "ExpenseDiv";
+      let createNewLine = document.createElement("p");
+      createNewLine.className = "individualExpense";
+      expensesSection.appendChild(createNewDiv);
+      createNewDiv.appendChild(createNewLine);
+      let newExpenseLine = document.createTextNode(
+        "£" + expenses[i].expenseValue + " - " + expenses[i].expenseDescription
+      );
+      createNewLine.appendChild(newExpenseLine);
+      createNewDiv.dataset.expenseNumber = i;
+      createEditButton(createNewDiv);
+      createDeleteButton(createNewDiv);
+    }
+  }
+
+  let showTotal = document.getElementById("totalExpensesSum");
+  // showTotal.innerHTML = sumExpenses;
+  showTotal.innerHTML = sumExpenses();
+  let showBalance = document.getElementById("showBalanceValue");
+  showBalance.innerHTML = budgetMinusExpenses;
+}
 
 // function editExistingExpense(expenses) {
 //   let deleteExpenseButton = document.getElementsByClassName("deleteExpense");
