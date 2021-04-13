@@ -1,15 +1,13 @@
 //Global Variables
 let expenses = [];
 let expensesSection = document.getElementById("expenses");
-
+let budget;
 //Add to budget
 function addToBudget() {
-  let budgetValue = document.getElementById("inputBudgetBox").value;
-  let displayBudget = (document.getElementById(
-    "showBudgetValue"
-  ).innerHTML = budgetValue);
+  budget = document.getElementById("inputBudgetBox").value;
+  document.getElementById("showBudgetValue").innerHTML = budget;
   document.getElementById("inputBudgetBox").value = "";
-  return displayBudget;
+  CreateExpenseHTMLInject();
 }
 
 //Create Expense Function
@@ -116,25 +114,17 @@ function sumExpenses() {
   let total = 0;
   for (let i = 0; i < expenses.length; i++) {
     total = total + expenses[i].expenseValue;
-    console.log(total);
   }
   return total;
 }
 
-function totalBalanceAfterExpenses(displayBudget, total) {
-  let budgetValue = displayBudget;
-  let budgetMinusExpenses;
-  if (budgetValue != "") {
-    budgetMinusExpenses = displayBudget - total;
-    return budgetMinusExpenses;
-  } else {
-    console.log("oh");
-  }
-  return budgetMinusExpenses;
+function totalBalanceAfterExpenses() {
+  let balance = budget - sumExpenses();
+  return balance;
 } // check if this function is correct
 
 //Create Expense HTML Inject
-function CreateExpenseHTMLInject(total, budgetMinusExpenses) {
+function CreateExpenseHTMLInject() {
   document
     .querySelectorAll(".ExpenseDiv")
     .forEach((Element) => Element.remove()); //remove o que já está impresso
@@ -158,17 +148,7 @@ function CreateExpenseHTMLInject(total, budgetMinusExpenses) {
   }
 
   let showTotal = document.getElementById("totalExpensesSum");
-  // showTotal.innerHTML = sumExpenses;
   showTotal.innerHTML = sumExpenses();
   let showBalance = document.getElementById("showBalanceValue");
-  showBalance.innerHTML = budgetMinusExpenses;
+  showBalance.innerHTML = totalBalanceAfterExpenses();
 }
-
-// function editExistingExpense(expenses) {
-//   let deleteExpenseButton = document.getElementsByClassName("deleteExpense");
-//   let editExpenseButton = document.getElementsByClassName("editExpense");
-
-//   for (let i = 0; i <= expenses.length; i++) {
-//     if(expenses[i].expenseId == )
-//   }
-// }
